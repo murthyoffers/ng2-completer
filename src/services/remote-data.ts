@@ -70,7 +70,7 @@ export class RemoteData extends CompleterBaseData {
         }
 
         this.remoteSearch = this.http.get(url, this._requestOptions.merge())
-            .map((res: Response) => res.json())
+            .map((res: Response) => { myresponse = res.json(); if(myresponse['suggest']['user-suggest']) {myresponse = myresponse['suggest']['user-suggest'][0]['options'];} return myresponse;})
             .map((data: any) => {
                 let matches = this.extractValue(data, this._dataField);
                 return this.extractMatches(matches, term);
